@@ -1,6 +1,9 @@
 package com.ats.controller;
 
+import com.ats.enums.FlightStatus;
 import com.ats.payload.request.FlightRequest;
+import com.ats.payload.response.AirlineResponse;
+import com.ats.payload.response.ApiResponse;
 import com.ats.payload.response.FlightResponse;
 import com.ats.service.FlightService;
 import jakarta.validation.Valid;
@@ -46,5 +49,25 @@ public class FlightController {
                 departureAirportId,
                 arrivalAirportId, pageable);
         return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<FlightResponse> updateFlight(@PathVariable Long id,
+                                                       @RequestBody FlightRequest request) throws Exception {
+        return ResponseEntity.ok(flightService.updateFlight(id, request));
+    }
+
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<FlightResponse> changeFlightStatus(@PathVariable Long id,
+                                                             @RequestParam FlightStatus status) throws Exception {
+
+        return ResponseEntity.ok(flightService.changeFlightStatus(id, status));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ApiResponse> deleteFlight(@PathVariable Long id,
+                                                    @RequestHeader("Airline-Id") Long airlineId) throws Exception {
+        flightService.deleteFlight(airlineId, id);
+        return ResponseEntity.ok(new ApiResponse("Flight deleted successfully."));
     }
 }
