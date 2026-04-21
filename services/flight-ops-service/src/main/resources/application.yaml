@@ -1,0 +1,17 @@
+server:
+  port: 5003
+
+spring:
+  application:
+    name: flight-ops-service
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/airline_flight_db
+    username: root
+    password: root
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+
